@@ -18,37 +18,53 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=p
         getData(map);
 };
 
-function onEachFeature(feature, layer) {
-    //no property named popupContent; instead, create html string with all properties
-    var popupContent = "";
-    if (feature.properties) {
-        //loop to add feature property names and values to html string
-        for (var property in feature.properties){
-            popupContent += "<p>" + property + ": " + feature.properties[property] + "</p>";
-        }
-        layer.bindPopup(popupContent);
+function createPropSymbols(data, map){
+    var attribute = "count_2015";
+    var geojsonMarkerOptions = {
+        radius: 8,
+        fillColor: "#73435A",
+        color: "#73435A",
+        weight: 1,
+        opacity: 1,
+        fillOpacity: 0.6,
     };
-};
+    
+function calcPropRadius(attValue) {
+    //scale factor to adjust symbol size evenly
+    var scaleFactor = 10;
+    //area based on attribute value and scale factor
+    var area = attValue * scaleFactor;
+    //radius calculated based on area
+    var radius = Math.sqrt(area/Math.PI);
 
-//gets the data from the geojson file
-function getData(map){
-    //load the data about incidents of pertussis in California by county
-    $.ajax("data/pertussis_ca.geojson", {
-        dataType: "json",
-        //currently, the markers just indicate each California county
-        success: function(response){
-            //create geojson layer where each marker can be clicked on
-            var geoJsonLayer = L.geoJson(response, {
-                onEachFeature: onEachFeature
-            });
-            //clusters the markers
-            var markers = L.markerClusterGroup();
-            //add geojson to marker cluster layer
-            markers.addLayer(geoJsonLayer);
-            //add marker cluster layer to map
-            map.addLayer(markers);
+    return radius;
+};
+    
+        L.geoJson(data, {
+        pointToLayer: function (feature, latlng) {
+            //Step 5: For each feature, determine its value for the selected attribute
+            var attValue = Number(feature.properties[attribute]);
+
+            //examine the attribute value to check that it is correct
+            geojsonMarkerOptions.radius = calcPropRadius(attValue);
+
+            //create circle markers
+            return L.circleMarker(latlng, geojsonMarkerOptions);
         }
     }).addTo(map);
-};         
+};
+
+//Step 2: Import GeoJSON data
+function getData(map){
+    //load the data
+    $.ajax("data/pertussis_ca.geojson", {
+        dataType: "json",
+        success: function(response){
+            //call function to create proportional symbols
+            createPropSymbols(response, map);
+            
+        }
+    });
+};    
    
 $(document).ready(createMap);
