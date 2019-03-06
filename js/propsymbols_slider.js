@@ -140,46 +140,6 @@ function getData(map){
     });
 };
 
-
-
-function getColor(attribute) {
-    return attribute > 1000 ? '#990000' :
-           attribute > 500 ? '#d7301f' :
-           attribute > 100 ? '#ef6548' :
-           attribute > 50 ? '#fc8d59' :
-           attribute > 20 ? '#fdbb84' :
-           attribute > 10 ? '#fdd49e' :
-							'#fef0d9';
-};
-
-function getNextLayer(map){
-    $.ajax("data/ca_pertussis.geojson", {
-        dataType: "json",
-        success: function(response){
-            newLayer = L.geoJson(response, {
-                pointLayer: function(feature, latlng) {
-                    var attributes = "";
-                    var attValue = Number(feature.properties[attribute]);
-                    console.log(calcPropRadius(attValue));
-                    function calcPropRadius(attValue) {
-                        var scaleFactor = 0.02;
-                        var area = attValue * scaleFactor;
-                        var radius = Math.sqrt(area/Math.PI);
-                        
-                        return radius;
-                    };
-                        return new L.CircleMarker(latlng, {
-                            getColor: '',
-                            fillOpacity: 0.7 
-                        });
-                },
-                
-                }).addTo(map);
-            controlLayers(map);
-        }
-    });
-};
-
 //calculate the radius of each proportional symbol
 function calcPropRadius(attValue) {
     //scale factor to adjust symbol size evenly
@@ -191,7 +151,6 @@ function calcPropRadius(attValue) {
 
     return radius;
 }; 
-
 
 //function call to create the leaflet map
 function createMap(){
