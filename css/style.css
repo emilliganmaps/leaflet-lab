@@ -3,17 +3,18 @@
     width: 800px;
 }
 
-#panel {
-    width: 26%;
-    padding: 20px;
-    display: inline-block;
-    vertical-align: top;
+.sequence-control-container {
+    width: 350px;
+    height: 30px;
+    background-color: rgba(255,255,255,0.8);
+    padding: 10px;
+    line-height: 45px;
     text-align: center;
-    line-height: 42px;
+    border: solid gray 1px;
 }
 
 .range-slider {
-    width: 50%;
+    width: 200px;
 }
 
 #forward {
@@ -27,3 +28,5 @@
 .leaflet-popup-content p {
     margin: 0.2em 0;
 }
+
+font-family: 'Open Sans', sans-serif;
