@@ -1,20 +1,22 @@
 #map {
-    height: 600px;
-    width: 800px;
+    height: 700px;
+    width: 1000px;
 }
 
 .sequence-control-container {
-    width: 350px;
-    height: 30px;
+    width: 390px;
+    height: 45px;
     background-color: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
     padding: 10px;
-    line-height: 45px;
+    line-height: 20px;
     text-align: center;
     border: solid gray 1px;
 }
 
 .range-slider {
     width: 200px;
+    padding: 5px;
 }
 
 #forward {
@@ -29,4 +31,13 @@
     margin: 0.2em 0;
 }
 
-font-family: 'Open Sans', sans-serif;
+.legend-control-container {
+    width: 400px;
+    height: 350px;
+    background-color: rgba(255,255,255,0.6);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    padding: 10px;
+    line-height: 45px;
+    text-align: center;
+    border: solid gray 1px;
+}
